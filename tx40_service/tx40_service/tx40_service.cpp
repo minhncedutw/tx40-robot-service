@@ -33,13 +33,12 @@ using namespace std;
 #define REAL_IP_ADDRESS2 "http://192.168.0.252:5653/"   // config ip address: 192.168.0.254; subnet mask: 255.255.0.0
 //#define ROBOT_IP VIRTUAL_IP_ADDRESS
 #define ROBOT_IP REAL_IP_ADDRESS2
-#define TIMEOUT 100
-#define SERVICE_URL L"http://localhost:5000/v1/tx40/"
+#define TIMEOUT 200
+#define SERVICE_URL L"http://localhost:5001/v1/tx40/"
 
 #define TRACE(msg)            wcout << msg
 #define TRACE_ACTION(a, k, v) wcout << a << L" (" << k << L", " << v << L")\n"
 
-map<utility::string_t, utility::string_t> dictionary;
 TX60L * mRobot;
 bool mRobotEnabled = false;
 double mX = 0, mY = 0, mZ = 0, mRX = 0, mRY = 0, mRZ = 0;
@@ -424,7 +423,11 @@ void handle_del(http_request request)
 	switch (paths.size())
 	{
 	case 1:
-		if (paths[0] == L"restdemo")
+		if (paths[0] == L"state")
+		{
+			request.reply(status_codes::NotImplemented);
+		}
+		else if (paths[0] == L"position")
 		{
 			request.reply(status_codes::NotImplemented);
 		}
